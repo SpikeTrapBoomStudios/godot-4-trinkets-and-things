@@ -1,0 +1,17 @@
+[gd_resource type="NoiseTexture2D" load_steps=3 format=3 uid="uid://ugtbr84eyg3s"]
+
+[sub_resource type="Gradient" id="Gradient_g17xu"]
+colors = PackedColorArray(0, 0, 0, 1, 0.817521, 0.817521, 0.817521, 1)
+
+[sub_resource type="FastNoiseLite" id="FastNoiseLite_dreav"]
+noise_type = 3
+fractal_octaves = 6
+cellular_return_type = 6
+domain_warp_amplitude = 29.115
+
+[resource]
+width = 2048
+height = 2048
+seamless = true
+color_ramp = SubResource("Gradient_g17xu")
+noise = SubResource("FastNoiseLite_dreav")

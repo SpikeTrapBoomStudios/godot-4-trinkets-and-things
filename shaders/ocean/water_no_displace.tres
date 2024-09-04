@@ -1,0 +1,28 @@
+[gd_resource type="ShaderMaterial" load_steps=7 format=3 uid="uid://yjuokfqvnhj2"]
+
+[ext_resource type="Shader" path="res://resources/material/shader/ocean_flat.gdshader" id="1_mh08f"]
+[ext_resource type="Texture2D" uid="uid://da7vkxykb57cq" path="res://resources/material/textures/water_noise/water_noise_1.tres" id="2_xcuiv"]
+[ext_resource type="Texture2D" uid="uid://de65tffi0btjq" path="res://resources/material/textures/water_noise/water_noise_normalmap_1_baked.png" id="3_tywbo"]
+[ext_resource type="Texture2D" uid="uid://cmyysl3ko0d5g" path="res://resources/material/textures/water_noise/water_noise_2_baked.png" id="4_bkg45"]
+[ext_resource type="Texture2D" uid="uid://0dyxavpwhnl8" path="res://resources/material/textures/water_noise/water_noise_normalmap_2_baked.png" id="5_t3m2l"]
+[ext_resource type="Texture2D" uid="uid://bptyv865327kd" path="res://resources/material/textures/heightmaps/island_heightmap.exr" id="6_3j3to"]
+
+[resource]
+render_priority = 0
+shader = ExtResource("1_mh08f")
+shader_parameter/albedo1 = Color(0.0368, 0.13662, 0.23, 1)
+shader_parameter/metallic = 0.5
+shader_parameter/specular = 0.0
+shader_parameter/roughness = 0.1
+shader_parameter/uv_scale = 0.001
+shader_parameter/world_size = 2048.0
+shader_parameter/terrain_height = 90.0
+shader_parameter/wave_speed = 14.0
+shader_parameter/wave_height = 14.0
+shader_parameter/foam_range = Vector2(12, 3)
+shader_parameter/wave_depth_strength_range = Vector2(1, 20)
+shader_parameter/wave_strength_mask = ExtResource("6_3j3to")
+shader_parameter/wave_noise_one = ExtResource("2_xcuiv")
+shader_parameter/wave_noise_one_normal_map = ExtResource("3_tywbo")
+shader_parameter/wave_noise_two = ExtResource("4_bkg45")
+shader_parameter/wave_noise_two_normal_map = ExtResource("5_t3m2l")

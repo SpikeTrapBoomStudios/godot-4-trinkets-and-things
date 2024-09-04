@@ -1,0 +1,9 @@
+[gd_resource type="FontVariation" load_steps=2 format=3 uid="uid://co4lellrxraq0"]
+
+[ext_resource type="FontFile" uid="uid://cjppkxk47efwu" path="res://resources/fonts/Nuclear Font.otf" id="1_d4uxi"]
+
+[resource]
+base_font = ExtResource("1_d4uxi")
+spacing_top = 12
+spacing_bottom = -11
+baseline_offset = -0.575

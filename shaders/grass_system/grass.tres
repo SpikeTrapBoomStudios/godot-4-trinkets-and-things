@@ -1,0 +1,27 @@
+[gd_resource type="ShaderMaterial" load_steps=9 format=3 uid="uid://b3on3p1aqgvip"]
+
+[ext_resource type="Shader" path="res://resources/material/shader/grass.gdshader" id="1_mkk63"]
+[ext_resource type="Texture2D" uid="uid://rf0llccr1r3m" path="res://resources/models/export/obj/foliage/grass.png" id="2_tt0v0"]
+[ext_resource type="Texture2D" uid="uid://benk6cyeqnuwl" path="res://resources/material/textures/colors/grass_color_mask_noise.tres" id="3_0gqyp"]
+[ext_resource type="Texture2D" uid="uid://b5ge3c225kdg0" path="res://resources/material/textures/colors/grass_color_ramp.tres" id="4_duqg1"]
+[ext_resource type="Texture2D" uid="uid://bptyv865327kd" path="res://resources/material/textures/heightmaps/island_heightmap.exr" id="4_wccjd"]
+[ext_resource type="Texture2D" uid="uid://jm1hntetgf67" path="res://resources/material/textures/normalmaps/island_normalmap.jpg" id="5_aot8l"]
+[ext_resource type="Texture2D" uid="uid://cfbv17cq7v3ni" path="res://resources/material/textures/colors/grass_scale_noise.tres" id="7_hukdx"]
+[ext_resource type="Texture2D" uid="uid://c431g4kmox8f5" path="res://resources/material/textures/colors/grass_wind_noise.tres" id="8_yidbt"]
+
+[resource]
+render_priority = 2
+shader = ExtResource("1_mkk63")
+shader_parameter/displace_multi = 90.0
+shader_parameter/world_size = 2048.0
+shader_parameter/wind_speed = 0.07
+shader_parameter/wind_strength = 0.13
+shader_parameter/min_dist = 10.0
+shader_parameter/max_dist = 25.0
+shader_parameter/displace_texture = ExtResource("4_wccjd")
+shader_parameter/normal_texture = ExtResource("5_aot8l")
+shader_parameter/color_ramp = ExtResource("4_duqg1")
+shader_parameter/base_tex = ExtResource("2_tt0v0")
+shader_parameter/wind_noise = ExtResource("8_yidbt")
+shader_parameter/color_noise = ExtResource("3_0gqyp")
+shader_parameter/scale_noise = ExtResource("7_hukdx")

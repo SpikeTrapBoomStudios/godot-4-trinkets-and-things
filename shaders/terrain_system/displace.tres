@@ -1,0 +1,26 @@
+[gd_resource type="ShaderMaterial" load_steps=7 format=3 uid="uid://cjkvdh5yb30aw"]
+
+[ext_resource type="Shader" path="res://resources/material/shader/displace.gdshader" id="1_2loav"]
+[ext_resource type="Texture2D" uid="uid://bptyv865327kd" path="res://resources/material/textures/heightmaps/island_heightmap.exr" id="2_gbrgk"]
+[ext_resource type="Texture2D" uid="uid://benk6cyeqnuwl" path="res://resources/material/textures/colors/grass_color_mask_noise.tres" id="2_ximvi"]
+[ext_resource type="Texture2D" uid="uid://yks16yo2gr2y" path="res://resources/material/textures/colors/grass.jpg" id="3_1plba"]
+[ext_resource type="Texture2D" uid="uid://jm1hntetgf67" path="res://resources/material/textures/normalmaps/island_normalmap.jpg" id="5_y24m3"]
+[ext_resource type="Texture2D" uid="uid://5nfboed1so0g" path="res://resources/material/textures/colors/sand.jpg" id="6_e58wm"]
+
+[resource]
+render_priority = 0
+shader = ExtResource("1_2loav")
+shader_parameter/displace_multi = 90.0
+shader_parameter/normal_multi = 0.5
+shader_parameter/displace_texture = ExtResource("2_gbrgk")
+shader_parameter/normal_texture = ExtResource("5_y24m3")
+shader_parameter/sand_color = Color(0.666667, 0.572549, 0.439216, 1)
+shader_parameter/grass_color = Color(0.392157, 0.388235, 0.0588235, 1)
+shader_parameter/sand_tex = ExtResource("6_e58wm")
+shader_parameter/grass_tex = ExtResource("3_1plba")
+shader_parameter/color_noise = ExtResource("2_ximvi")
+shader_parameter/sand_height_max = 36.0
+shader_parameter/grass_height_min = 41.0
+shader_parameter/grass_height_max = 70.0
+shader_parameter/rock_height_min = 95.0
+shader_parameter/world_size = 2048.0

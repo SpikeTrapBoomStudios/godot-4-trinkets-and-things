@@ -1,0 +1,42 @@
+[gd_resource type="ShaderMaterial" load_steps=9 format=3 uid="uid://dbsc5gvhki7iy"]
+
+[ext_resource type="Shader" path="res://resources/material/shader/ocean.gdshader" id="1_rxfy6"]
+[ext_resource type="Texture2D" uid="uid://d2t6bi4ywew6i" path="res://resources/material/textures/water_noise/water_noise_1_baked.png" id="2_drfnp"]
+[ext_resource type="Texture2D" uid="uid://de65tffi0btjq" path="res://resources/material/textures/water_noise/water_noise_normalmap_1_baked.png" id="3_gdkon"]
+[ext_resource type="Texture2D" uid="uid://cmyysl3ko0d5g" path="res://resources/material/textures/water_noise/water_noise_2_baked.png" id="4_fpcxf"]
+[ext_resource type="Texture2D" uid="uid://0dyxavpwhnl8" path="res://resources/material/textures/water_noise/water_noise_normalmap_2_baked.png" id="5_8j6tq"]
+[ext_resource type="Texture2D" uid="uid://bptyv865327kd" path="res://resources/material/textures/heightmaps/island_heightmap.exr" id="6_rardh"]
+
+[sub_resource type="FastNoiseLite" id="FastNoiseLite_1xhhh"]
+noise_type = 2
+frequency = 0.143
+fractal_type = 0
+cellular_return_type = 5
+
+[sub_resource type="NoiseTexture2D" id="NoiseTexture2D_ewno1"]
+width = 1024
+height = 1024
+seamless = true
+noise = SubResource("FastNoiseLite_1xhhh")
+
+[resource]
+render_priority = 0
+shader = ExtResource("1_rxfy6")
+shader_parameter/albedo1 = Color(0.0486, 0.10764, 0.27, 1)
+shader_parameter/albedo_screen_ratio = 0.95
+shader_parameter/metallic = 0.5
+shader_parameter/specular = 0.0
+shader_parameter/roughness = 0.1
+shader_parameter/uv_scale = 0.001
+shader_parameter/world_size = 2048.0
+shader_parameter/terrain_height = 90.0
+shader_parameter/wave_speed = 14.0
+shader_parameter/wave_height = 14.0
+shader_parameter/foam_range = Vector2(12, 3)
+shader_parameter/wave_depth_strength_range = Vector2(40, 89)
+shader_parameter/wave_strength_mask = ExtResource("6_rardh")
+shader_parameter/wave_noise_one = ExtResource("2_drfnp")
+shader_parameter/wave_noise_one_normal_map = ExtResource("3_gdkon")
+shader_parameter/wave_noise_two = ExtResource("4_fpcxf")
+shader_parameter/wave_noise_two_normal_map = ExtResource("5_8j6tq")
+shader_parameter/water_foam_tex = SubResource("NoiseTexture2D_ewno1")

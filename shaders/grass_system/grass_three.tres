@@ -1,0 +1,39 @@
+[gd_resource type="ShaderMaterial" load_steps=10 format=3 uid="uid://b8rslbo33rwya"]
+
+[ext_resource type="Shader" path="res://resources/material/shader/grass_three.gdshader" id="1_5jjm5"]
+[ext_resource type="Texture2D" uid="uid://benk6cyeqnuwl" path="res://resources/material/textures/colors/grass_color_mask_noise.tres" id="2_3sw8i"]
+[ext_resource type="Texture2D" uid="uid://bptyv865327kd" path="res://resources/material/textures/heightmaps/island_heightmap.exr" id="3_pg2qx"]
+[ext_resource type="Texture2D" uid="uid://jm1hntetgf67" path="res://resources/material/textures/normalmaps/island_normalmap.jpg" id="4_1xs8a"]
+
+[sub_resource type="Gradient" id="Gradient_lqwej"]
+offsets = PackedFloat32Array(0, 0.918033)
+colors = PackedColorArray(0.381703, 0.381703, 0.381703, 1, 1, 1, 1, 1)
+
+[sub_resource type="GradientTexture2D" id="GradientTexture2D_i3t2w"]
+gradient = SubResource("Gradient_lqwej")
+height = 1
+
+[sub_resource type="Gradient" id="Gradient_ujl04"]
+colors = PackedColorArray(0.45, 1, 1, 1, 1, 1, 1, 1)
+
+[sub_resource type="FastNoiseLite" id="FastNoiseLite_755a1"]
+
+[sub_resource type="NoiseTexture2D" id="NoiseTexture2D_dj3ok"]
+normalize = false
+color_ramp = SubResource("Gradient_ujl04")
+noise = SubResource("FastNoiseLite_755a1")
+
+[resource]
+render_priority = 0
+shader = ExtResource("1_5jjm5")
+shader_parameter/displace_multi = 265.0
+shader_parameter/world_size = 2048.0
+shader_parameter/fade_min = 300.0
+shader_parameter/fade_max = 435.0
+shader_parameter/start = 165.0
+shader_parameter/end = 175.0
+shader_parameter/displace_texture = ExtResource("3_pg2qx")
+shader_parameter/normal_texture = ExtResource("4_1xs8a")
+shader_parameter/color_ramp = SubResource("GradientTexture2D_i3t2w")
+shader_parameter/color_noise = ExtResource("2_3sw8i")
+shader_parameter/scale_noise = SubResource("NoiseTexture2D_dj3ok")
