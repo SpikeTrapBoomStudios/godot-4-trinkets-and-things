@@ -1,0 +1,594 @@
+[gd_scene load_steps=23 format=3 uid="uid://bvo34aswfwlj1"]
+
+[ext_resource type="Texture2D" uid="uid://c3arrk8cp267" path="res://resources/images/hud/goop_drop_1.png" id="1_8uwt8"]
+[ext_resource type="Theme" uid="uid://b8jv7bbn4imt0" path="res://resources/ui_stuff/themes/game_standard.tres" id="1_msd2i"]
+[ext_resource type="Script" path="res://assets/ui/start_menu.gd" id="1_wte35"]
+[ext_resource type="Script" path="res://assets/ui/host_system.gd" id="4_7r3ja"]
+[ext_resource type="Texture2D" uid="uid://dsoa84ubkwcv2" path="res://resources/ui_stuff/img/x.png" id="4_l0cl7"]
+[ext_resource type="Script" path="res://assets/ui/server_config_system.gd" id="5_0ijub"]
+[ext_resource type="Script" path="res://assets/ui/join_system.gd" id="5_7l24l"]
+[ext_resource type="Script" path="res://assets/ui/server_creater_system.gd" id="8_makxm"]
+
+[sub_resource type="Shader" id="Shader_gofsk"]
+code = "shader_type canvas_item;
+
+uniform float time_multiplier = 1.0;
+uniform sampler2D noise_tex: repeat_enable;
+uniform sampler2D noise_tex_two: repeat_enable;
+uniform sampler2D noise_tex_three: repeat_enable;
+
+void fragment() {
+	float uv_x = UV.x;
+	float uv_y = UV.y;
+	vec2 uv = vec2(uv_x,uv_y);
+
+	COLOR = texture(noise_tex,uv);
+	vec3 first = texture(noise_tex,uv+TIME/100.0).rgb;
+	vec3 second = texture(noise_tex_two,uv-TIME/100.0).rgb;
+	vec3 third = texture(noise_tex_three,uv+TIME/100.0).rgb;
+
+	float mix_val = (sin(TIME/1.4)+1.0)/2.0;
+	mix_val = smoothstep(0.0,1.0,mix_val);
+	COLOR.rgb = mix(first,second,mix_val);
+
+	mix_val = (sin(-TIME*1.2)+1.0)/2.0;
+	mix_val = smoothstep(0.0,1.0,mix_val);
+	COLOR.rgb = mix(COLOR.rgb,third,mix_val);
+}"
+
+[sub_resource type="Gradient" id="Gradient_23n3p"]
+offsets = PackedFloat32Array(0, 0.377049, 0.713115, 1)
+colors = PackedColorArray(0, 0.42, 0.119, 1, 0, 0.19, 0.0538333, 1, 0.066, 0.66, 0, 1, 0, 0.84, 0.238, 1)
+
+[sub_resource type="FastNoiseLite" id="FastNoiseLite_3wxed"]
+noise_type = 2
+
+[sub_resource type="NoiseTexture2D" id="NoiseTexture2D_j2god"]
+seamless = true
+color_ramp = SubResource("Gradient_23n3p")
+noise = SubResource("FastNoiseLite_3wxed")
+
+[sub_resource type="Gradient" id="Gradient_rc5a0"]
+offsets = PackedFloat32Array(0, 0.377049, 0.713115, 1)
+colors = PackedColorArray(0, 0.42, 0.119, 1, 0, 0.19, 0.0538333, 1, 0.066, 0.66, 0, 1, 0, 0.84, 0.238, 1)
+
+[sub_resource type="FastNoiseLite" id="FastNoiseLite_3dk24"]
+noise_type = 2
+seed = 2
+
+[sub_resource type="NoiseTexture2D" id="NoiseTexture2D_imj1i"]
+seamless = true
+color_ramp = SubResource("Gradient_rc5a0")
+noise = SubResource("FastNoiseLite_3dk24")
+
+[sub_resource type="Gradient" id="Gradient_ylb8h"]
+offsets = PackedFloat32Array(0, 0.377049, 0.713115, 1)
+colors = PackedColorArray(0, 0.42, 0.119, 1, 0, 0.19, 0.0538333, 1, 0.066, 0.66, 0, 1, 0, 0.84, 0.238, 1)
+
+[sub_resource type="FastNoiseLite" id="FastNoiseLite_h66iq"]
+noise_type = 2
+seed = 1
+
+[sub_resource type="NoiseTexture2D" id="NoiseTexture2D_pwfrx"]
+seamless = true
+color_ramp = SubResource("Gradient_ylb8h")
+noise = SubResource("FastNoiseLite_h66iq")
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_mg5b5"]
+shader = SubResource("Shader_gofsk")
+shader_parameter/time_multiplier = 1.0
+shader_parameter/noise_tex = SubResource("NoiseTexture2D_j2god")
+shader_parameter/noise_tex_two = SubResource("NoiseTexture2D_pwfrx")
+shader_parameter/noise_tex_three = SubResource("NoiseTexture2D_imj1i")
+
+[sub_resource type="ParticleProcessMaterial" id="ParticleProcessMaterial_mkpxi"]
+particle_flag_disable_z = true
+emission_shape_offset = Vector3(470, -200, 0)
+emission_shape = 3
+emission_box_extents = Vector3(470, 1, 1)
+direction = Vector3(0, 1, 0)
+spread = 0.0
+initial_velocity_min = 100.0
+initial_velocity_max = 100.0
+gravity = Vector3(0, 0, 0)
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_nhinv"]
+bg_color = Color(0.329158, 0.329158, 0.329158, 1)
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_1v5f3"]
+bg_color = Color(0.205117, 0.205117, 0.205117, 1)
+
+[node name="StartMenu" type="Control"]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme = ExtResource("1_msd2i")
+script = ExtResource("1_wte35")
+
+[node name="GoopBackground1" type="Panel" parent="."]
+material = SubResource("ShaderMaterial_mg5b5")
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="GoopDrops" type="GPUParticles2D" parent="."]
+position = Vector2(-2, 0)
+amount = 100
+process_material = SubResource("ParticleProcessMaterial_mkpxi")
+texture = ExtResource("1_8uwt8")
+lifetime = 10.0
+preprocess = 10.0
+visibility_rect = Rect2(0, 0, 960, 540)
+
+[node name="UIArea" type="Panel" parent="."]
+layout_mode = 1
+anchors_preset = 9
+anchor_bottom = 1.0
+offset_right = 307.0
+grow_vertical = 2
+
+[node name="TitleText" type="Label" parent="UIArea"]
+layout_mode = 1
+anchors_preset = 10
+anchor_right = 1.0
+offset_bottom = 91.0
+grow_horizontal = 2
+theme_override_font_sizes/font_size = 24
+text = "MUTANT ISLAND"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="HostGameButton" type="Button" parent="UIArea"]
+layout_mode = 0
+offset_left = 25.0
+offset_top = 89.0
+offset_right = 208.0
+offset_bottom = 132.0
+focus_mode = 0
+mouse_default_cursor_shape = 2
+text = "Host Game"
+script = ExtResource("4_7r3ja")
+
+[node name="HostOptionsContainer" type="Panel" parent="UIArea/HostGameButton"]
+layout_mode = 1
+anchors_preset = 6
+anchor_left = 1.0
+anchor_top = 0.5
+anchor_right = 1.0
+anchor_bottom = 0.5
+offset_left = 13.0
+offset_top = -21.5
+offset_right = 555.0
+offset_bottom = 179.5
+grow_horizontal = 0
+grow_vertical = 2
+theme_override_styles/panel = SubResource("StyleBoxFlat_nhinv")
+
+[node name="Title" type="Label" parent="UIArea/HostGameButton/HostOptionsContainer"]
+layout_mode = 0
+offset_left = 9.0
+offset_top = 8.0
+offset_right = 169.0
+offset_bottom = 47.0
+theme_override_font_sizes/font_size = 20
+text = "Host Options"
+
+[node name="ServerConfText" type="Label" parent="UIArea/HostGameButton/HostOptionsContainer"]
+layout_mode = 0
+offset_left = 9.0
+offset_top = 80.0
+offset_right = 197.0
+offset_bottom = 119.0
+theme_override_font_sizes/font_size = 20
+text = "Server Config:"
+
+[node name="ServerConfOptions" type="OptionButton" parent="UIArea/HostGameButton/HostOptionsContainer"]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -47.5
+offset_top = -17.5
+offset_right = 235.5
+offset_bottom = 22.5
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="HostConfirmButton" type="Button" parent="UIArea/HostGameButton/HostOptionsContainer"]
+layout_mode = 1
+anchors_preset = 7
+anchor_left = 0.5
+anchor_top = 1.0
+anchor_right = 0.5
+anchor_bottom = 1.0
+offset_left = -97.0
+offset_top = -53.0
+offset_right = 65.0
+offset_bottom = -13.0
+grow_horizontal = 2
+grow_vertical = 0
+focus_mode = 0
+mouse_default_cursor_shape = 2
+text = "Host Game
+"
+
+[node name="CreateConfigText" type="RichTextLabel" parent="UIArea/HostGameButton/HostOptionsContainer"]
+layout_mode = 0
+offset_left = 345.0
+offset_top = 124.0
+offset_right = 537.0
+offset_bottom = 199.0
+theme_override_font_sizes/normal_font_size = 16
+bbcode_enabled = true
+text = "Don't have a server config?
+Create one [url=create_server_config][color=aqua]here."
+scroll_active = false
+autowrap_mode = 2
+
+[node name="JoinGameButton" type="Button" parent="UIArea"]
+layout_mode = 0
+offset_left = 25.0
+offset_top = 295.0
+offset_right = 208.0
+offset_bottom = 338.0
+focus_mode = 0
+mouse_default_cursor_shape = 2
+text = "Join Game"
+script = ExtResource("5_7l24l")
+
+[node name="JoinOptionsContainer" type="Panel" parent="UIArea/JoinGameButton"]
+layout_mode = 1
+anchors_preset = 6
+anchor_left = 1.0
+anchor_top = 0.5
+anchor_right = 1.0
+anchor_bottom = 0.5
+offset_left = 13.0
+offset_top = -21.5
+offset_right = 555.0
+offset_bottom = 175.5
+grow_horizontal = 0
+grow_vertical = 2
+theme_override_styles/panel = SubResource("StyleBoxFlat_nhinv")
+
+[node name="Title" type="Label" parent="UIArea/JoinGameButton/JoinOptionsContainer"]
+layout_mode = 0
+offset_left = 9.0
+offset_top = 8.0
+offset_right = 169.0
+offset_bottom = 47.0
+theme_override_font_sizes/font_size = 20
+text = "Join Options"
+
+[node name="JoinConfText" type="Label" parent="UIArea/JoinGameButton/JoinOptionsContainer"]
+layout_mode = 0
+offset_left = 9.0
+offset_top = 76.0
+offset_right = 169.0
+offset_bottom = 115.0
+theme_override_font_sizes/font_size = 20
+text = "Server List:"
+
+[node name="JoinConfOptions" type="OptionButton" parent="UIArea/JoinGameButton/JoinOptionsContainer"]
+layout_mode = 0
+offset_left = 181.0
+offset_top = 76.0
+offset_right = 405.0
+offset_bottom = 114.0
+
+[node name="JoinConfirmButton" type="Button" parent="UIArea/JoinGameButton/JoinOptionsContainer"]
+layout_mode = 1
+anchors_preset = 7
+anchor_left = 0.5
+anchor_top = 1.0
+anchor_right = 0.5
+anchor_bottom = 1.0
+offset_left = -81.0
+offset_top = -53.0
+offset_right = 81.0
+offset_bottom = -13.0
+grow_horizontal = 2
+grow_vertical = 0
+focus_mode = 0
+mouse_default_cursor_shape = 2
+text = "Join Game
+"
+
+[node name="CreateServerText" type="RichTextLabel" parent="UIArea/JoinGameButton/JoinOptionsContainer"]
+layout_mode = 0
+offset_left = 355.0
+offset_top = 119.0
+offset_right = 547.0
+offset_bottom = 194.0
+theme_override_font_sizes/normal_font_size = 16
+bbcode_enabled = true
+text = "Don't have a server?
+Create one [url=create_server][color=aqua]here."
+scroll_active = false
+autowrap_mode = 2
+
+[node name="ServerConfigArea" type="Panel" parent="." node_paths=PackedStringArray("config_dropdowns")]
+visible = false
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = 91.0
+offset_top = 38.0
+offset_right = -91.0
+offset_bottom = -38.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_styles/panel = SubResource("StyleBoxFlat_1v5f3")
+script = ExtResource("5_0ijub")
+config_dropdowns = [NodePath("../UIArea/HostGameButton/HostOptionsContainer/ServerConfOptions"), NodePath("ConfigDropdown")]
+
+[node name="Title" type="Label" parent="ServerConfigArea"]
+layout_mode = 0
+offset_left = 20.0
+offset_top = 21.0
+offset_right = 429.0
+offset_bottom = 67.0
+text = "Server Config Editor"
+
+[node name="ConfigNameText" type="Label" parent="ServerConfigArea"]
+layout_mode = 0
+offset_left = 21.0
+offset_top = 98.0
+offset_right = 123.0
+offset_bottom = 129.0
+scale = Vector2(0.8, 0.8)
+theme_override_font_sizes/font_size = 16
+text = "Selected Config:"
+
+[node name="ConfigDropdown" type="OptionButton" parent="ServerConfigArea"]
+layout_mode = 0
+offset_left = 177.0
+offset_top = 97.0
+offset_right = 356.0
+offset_bottom = 125.0
+allow_reselect = true
+
+[node name="ExitButton" type="Button" parent="ServerConfigArea"]
+layout_mode = 1
+anchors_preset = 1
+anchor_left = 1.0
+anchor_right = 1.0
+offset_left = -56.0
+offset_top = 16.0
+offset_right = -16.0
+offset_bottom = 56.0
+grow_horizontal = 0
+focus_mode = 0
+mouse_default_cursor_shape = 2
+icon = ExtResource("4_l0cl7")
+flat = true
+icon_alignment = 1
+expand_icon = true
+
+[node name="EditorArea" type="Control" parent="ServerConfigArea"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = 24.0
+offset_top = 140.0
+offset_right = -24.0
+offset_bottom = -17.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="ConfigNameEdit" type="LineEdit" parent="ServerConfigArea/EditorArea"]
+layout_mode = 0
+offset_left = 16.0
+offset_top = 11.0
+offset_right = 345.0
+offset_bottom = 43.0
+scale = Vector2(0.7, 0.7)
+theme_override_font_sizes/font_size = 16
+text = "test"
+placeholder_text = "Config Name..."
+max_length = 20
+
+[node name="Line2D" type="Line2D" parent="ServerConfigArea/EditorArea"]
+points = PackedVector2Array(6, 55, 715, 55)
+width = 5.0
+default_color = Color(0.396812, 0.581986, 0.645567, 1)
+
+[node name="PortEdit" type="LineEdit" parent="ServerConfigArea/EditorArea"]
+layout_mode = 0
+offset_left = 16.0
+offset_top = 71.0
+offset_right = 345.0
+offset_bottom = 103.0
+scale = Vector2(0.7, 0.7)
+theme_override_font_sizes/font_size = 16
+text = "25565"
+placeholder_text = "12345 (port number)"
+max_length = 5
+
+[node name="SaveButton" type="Button" parent="ServerConfigArea/EditorArea"]
+layout_mode = 1
+anchors_preset = 7
+anchor_left = 0.5
+anchor_top = 1.0
+anchor_right = 0.5
+anchor_bottom = 1.0
+offset_left = -104.0
+offset_top = -40.0
+offset_right = 104.0
+grow_horizontal = 2
+grow_vertical = 0
+focus_mode = 0
+mouse_default_cursor_shape = 2
+text = "Save Config"
+
+[node name="MouseBlocker" type="Control" parent="ServerConfigArea"]
+visible = false
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_bottom = -58.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_force_pass_scroll_events = false
+
+[node name="ServerArea" type="Panel" parent="." node_paths=PackedStringArray("server_dropdowns")]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = 91.0
+offset_top = 38.0
+offset_right = -91.0
+offset_bottom = -38.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_styles/panel = SubResource("StyleBoxFlat_1v5f3")
+script = ExtResource("8_makxm")
+server_dropdowns = [NodePath("ServerDropdown"), NodePath("../UIArea/JoinGameButton/JoinOptionsContainer/JoinConfOptions")]
+
+[node name="Title" type="Label" parent="ServerArea"]
+layout_mode = 0
+offset_left = 20.0
+offset_top = 21.0
+offset_right = 429.0
+offset_bottom = 67.0
+text = "Server Creater"
+
+[node name="ServerNameText" type="Label" parent="ServerArea"]
+layout_mode = 0
+offset_left = 21.0
+offset_top = 98.0
+offset_right = 123.0
+offset_bottom = 129.0
+scale = Vector2(0.8, 0.8)
+theme_override_font_sizes/font_size = 16
+text = "Selected Config:"
+
+[node name="ServerDropdown" type="OptionButton" parent="ServerArea"]
+layout_mode = 0
+offset_left = 177.0
+offset_top = 97.0
+offset_right = 356.0
+offset_bottom = 125.0
+allow_reselect = true
+
+[node name="ExitButton" type="Button" parent="ServerArea"]
+layout_mode = 1
+anchors_preset = 1
+anchor_left = 1.0
+anchor_right = 1.0
+offset_left = -56.0
+offset_top = 16.0
+offset_right = -16.0
+offset_bottom = 56.0
+grow_horizontal = 0
+focus_mode = 0
+mouse_default_cursor_shape = 2
+icon = ExtResource("4_l0cl7")
+flat = true
+icon_alignment = 1
+expand_icon = true
+
+[node name="EditorArea" type="Control" parent="ServerArea"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = 24.0
+offset_top = 140.0
+offset_right = -24.0
+offset_bottom = -17.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="ServerNameEdit" type="LineEdit" parent="ServerArea/EditorArea"]
+layout_mode = 0
+offset_left = 16.0
+offset_top = 11.0
+offset_right = 345.0
+offset_bottom = 43.0
+scale = Vector2(0.7, 0.7)
+theme_override_font_sizes/font_size = 16
+placeholder_text = "Server Name..."
+max_length = 20
+
+[node name="Line2D" type="Line2D" parent="ServerArea/EditorArea"]
+points = PackedVector2Array(6, 55, 715, 55)
+width = 5.0
+default_color = Color(0.396812, 0.581986, 0.645567, 1)
+
+[node name="AddressEdit" type="LineEdit" parent="ServerArea/EditorArea"]
+layout_mode = 0
+offset_left = 16.0
+offset_top = 70.0
+offset_right = 345.0
+offset_bottom = 102.0
+scale = Vector2(0.7, 0.7)
+theme_override_font_sizes/font_size = 16
+placeholder_text = "IP Address"
+max_length = 15
+
+[node name="PortEdit" type="LineEdit" parent="ServerArea/EditorArea"]
+layout_mode = 0
+offset_left = 16.0
+offset_top = 106.0
+offset_right = 345.0
+offset_bottom = 138.0
+scale = Vector2(0.7, 0.7)
+theme_override_font_sizes/font_size = 16
+placeholder_text = "12345 (port number)"
+max_length = 5
+
+[node name="SaveButton" type="Button" parent="ServerArea/EditorArea"]
+layout_mode = 1
+anchors_preset = 7
+anchor_left = 0.5
+anchor_top = 1.0
+anchor_right = 0.5
+anchor_bottom = 1.0
+offset_left = -104.0
+offset_top = -40.0
+offset_right = 104.0
+grow_horizontal = 2
+grow_vertical = 0
+focus_mode = 0
+mouse_default_cursor_shape = 2
+text = "Save Config"
+
+[node name="MouseBlocker" type="Control" parent="ServerArea"]
+visible = false
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_bottom = -58.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_force_pass_scroll_events = false
+
+[connection signal="pressed" from="UIArea/HostGameButton" to="." method="_on_host_game_button_pressed"]
+[connection signal="pressed" from="UIArea/HostGameButton/HostOptionsContainer/HostConfirmButton" to="UIArea/HostGameButton" method="_on_host_confirm_button_pressed"]
+[connection signal="meta_clicked" from="UIArea/HostGameButton/HostOptionsContainer/CreateConfigText" to="." method="_on_create_config_text_meta_clicked"]
+[connection signal="pressed" from="UIArea/JoinGameButton" to="." method="_on_join_game_button_pressed"]
+[connection signal="pressed" from="UIArea/JoinGameButton/JoinOptionsContainer/JoinConfirmButton" to="UIArea/JoinGameButton" method="_on_join_confirm_button_pressed"]
+[connection signal="meta_clicked" from="UIArea/JoinGameButton/JoinOptionsContainer/CreateServerText" to="." method="_on_create_server_text_meta_clicked"]
+[connection signal="item_selected" from="ServerConfigArea/ConfigDropdown" to="ServerConfigArea" method="_on_config_dropdown_item_selected"]
+[connection signal="pressed" from="ServerConfigArea/ExitButton" to="ServerConfigArea" method="_on_exit_button_pressed"]
+[connection signal="text_changed" from="ServerConfigArea/EditorArea/PortEdit" to="ServerConfigArea" method="_on_port_edit_text_changed"]
+[connection signal="pressed" from="ServerConfigArea/EditorArea/SaveButton" to="ServerConfigArea" method="_on_save_button_pressed"]
+[connection signal="item_selected" from="ServerArea/ServerDropdown" to="ServerArea" method="_on_server_dropdown_item_selected"]
+[connection signal="pressed" from="ServerArea/ExitButton" to="ServerArea" method="_on_exit_button_pressed"]
+[connection signal="text_changed" from="ServerArea/EditorArea/AddressEdit" to="ServerArea" method="_on_address_edit_text_changed"]
+[connection signal="text_changed" from="ServerArea/EditorArea/PortEdit" to="ServerArea" method="_on_port_edit_text_changed"]
+[connection signal="pressed" from="ServerArea/EditorArea/SaveButton" to="ServerArea" method="_on_save_button_pressed"]
