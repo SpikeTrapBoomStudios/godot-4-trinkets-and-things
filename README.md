@@ -7,6 +7,7 @@ said, I am NOT a free programmer for you. i WILL NOT make new stuff on request o
 requests. have fun, everything is public domain. but you have to keep it that way. but ofc, you can sell a game project that incorporated my stuff in it. just cant be the main thing.
 again, post or msg if you have questions. get coding!
 
+All of the following images were made with assets from this repo. Excluding the trees and the post proccessing. Shaders do have a lot of configuration though, but nothing you can't do!
 ![alt text](https://github.com/SpikeTrapBoomStudios/godot-4-trinkets-and-things/blob/6a53cfb143bae8ec4bd050eab12152b66c00389d/preview_images/1.png)
 ![alt text](https://github.com/SpikeTrapBoomStudios/godot-4-trinkets-and-things/blob/6a53cfb143bae8ec4bd050eab12152b66c00389d/preview_images/2.png)
 ![alt text](https://github.com/SpikeTrapBoomStudios/godot-4-trinkets-and-things/blob/6a53cfb143bae8ec4bd050eab12152b66c00389d/preview_images/3.png)
