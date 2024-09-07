@@ -6,3 +6,10 @@ this repo is meant to be useful, so if you dont understand something or somethin
 said, I am NOT a free programmer for you. i WILL NOT make new stuff on request of you, unless i feel it is really good. dont post requests in the github. only dm me on discord if you have
 requests. have fun, everything is public domain. but you have to keep it that way. but ofc, you can sell a game project that incorporated my stuff in it. just cant be the main thing.
 again, post or msg if you have questions. get coding!
+
+![alt text](https://github.com/SpikeTrapBoomStudios/godot-4-trinkets-and-things/blob/6a53cfb143bae8ec4bd050eab12152b66c00389d/preview_images/1.png)
+![alt text](https://github.com/SpikeTrapBoomStudios/godot-4-trinkets-and-things/blob/6a53cfb143bae8ec4bd050eab12152b66c00389d/preview_images/2.png)
+![alt text](https://github.com/SpikeTrapBoomStudios/godot-4-trinkets-and-things/blob/6a53cfb143bae8ec4bd050eab12152b66c00389d/preview_images/3.png)
+![alt text](https://github.com/SpikeTrapBoomStudios/godot-4-trinkets-and-things/blob/6a53cfb143bae8ec4bd050eab12152b66c00389d/preview_images/4.png)
+![alt text](https://github.com/SpikeTrapBoomStudios/godot-4-trinkets-and-things/blob/6a53cfb143bae8ec4bd050eab12152b66c00389d/preview_images/5.png)
+![alt text](https://github.com/SpikeTrapBoomStudios/godot-4-trinkets-and-things/blob/6a53cfb143bae8ec4bd050eab12152b66c00389d/preview_images/6.png)
